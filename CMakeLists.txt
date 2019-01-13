@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 2.8.10)
+project(gepard-js C CXX)
+
+set(PROJECT_VERSION 0.0.1)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
+
+find_package(Gepard)
+find_package(JerryScript)
+find_package(GLESv2)
+find_package(EGL)
+find_package(PNG)
+find_package(X11)
+
+set(GPJS_LIB_DEPENDENCIES ${GEPARD_LIBS} ${JERRYSCRIPT_LIBS} ${GLESv2_LIBRARY} ${EGL_LIBRARY} ${X11_LIBRARIES} ${PNG_LIBRARIES})
+set(GPJS_INCLUDE_DEPENDENCIES ${JERRYSCRIPT_INCLUDE_DIR} ${GEPARD_INCLUDE_DIR})
+
+add_subdirectory(src)
