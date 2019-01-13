@@ -7,10 +7,18 @@
 #include <thread>
 #include <chrono>
 
+gepard::XSurface* surface = nullptr;
+
 static jerry_value_t createContext2D(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
-    if (args_cnt > 0)
-        std::cout << "heyho" << std::endl;
+    if (args_cnt == 0) {
+        surface = new gepard::XSurface(600, 600);
+    } else if (args_cnt == 2) {
+        int width = (int)jerry_get_number_value(args_p[0]);
+        int height = (int)jerry_get_number_value(args_p[1]);
+        std::cout << "width, height: " << width << " " << height << std::endl;
+        surface = new gepard::XSurface(width, height);
+    }
     return jerry_create_undefined ();
 }
 
@@ -31,11 +39,10 @@ int main(int argc, char* argv[])
     std::cout << jsCode;
     jsFile.close();
     
-    const jerry_char_t script[] = "createContext2D(600, 800)";
     jerry_init (JERRY_INIT_EMPTY);
 
-    gepard::XSurface surface(600, 800);
-    gepard::Gepard ctx(&surface);
+    //gepard::XSurface surface(600, 800);
+    //gepard::Gepard ctx(&surface);
 
     jerry_value_t func_obj = jerry_create_external_function (createContext2D);
     jerry_value_t prop_name = jerry_create_string((const jerry_char_t *) "createContext2D");
@@ -54,7 +61,7 @@ int main(int argc, char* argv[])
     /* Cleanup engine */
     jerry_cleanup();
 
-    while (!surface.hasToQuit()) {
+    while (surface && !surface->hasToQuit()) {
         std::this_thread::sleep_for(std::chrono::nanoseconds(1));   // Only for CPU sparing.
     }
 
