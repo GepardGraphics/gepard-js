@@ -1,4 +1,5 @@
 #include "jerryscript.h"
+#include "jerryscript-ext/handler.h"
 #include "gepard.h"
 #include "surfaces/gepard-xsurface.h"
 
@@ -40,6 +41,8 @@ int main(int argc, char* argv[])
     jsFile.close();
     
     jerry_init (JERRY_INIT_EMPTY);
+
+    jerryx_handler_register_global((const jerry_char_t *) "print", jerryx_handler_print);
 
     //gepard::XSurface surface(600, 800);
     //gepard::Gepard ctx(&surface);
