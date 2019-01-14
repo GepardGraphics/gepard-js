@@ -1,0 +1,14 @@
+build
+
+# python precompilation files
+*.pyc
+__pycache__
+
+# vim swapfiles
+*.swp
+
+# 'temp' directory for local usage
+temp
+
+# QtCreator cmake.user files
+*.txt.user
