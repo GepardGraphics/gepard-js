@@ -1,4 +1,8 @@
-set(GPJS_SOURCES gepardJs.cpp surfaceBiding.cpp)
+set(GPJS_SOURCES
+    gepardJs.cpp
+    surfaceBiding.cpp
+    gepardBiding.cpp
+)
 
 add_executable(gepardJS ${GPJS_SOURCES})
 target_link_libraries(gepardJS ${GPJS_LIB_DEPENDENCIES})
