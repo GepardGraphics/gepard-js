@@ -1,4 +1,4 @@
-surface = new createXSurface(600, 800);
+/*surface = new createXSurface(600, 800);
 
 print(surface)
 print(surface.width + " " + surface.height);
@@ -10,4 +10,8 @@ gepard.fillRect(4, 4, 100, 100);
 gepard.setFillColor(0, 0, 128, 0.5);
 gepard.fillRect(10, 10, 400, 500);
 
-while(!surface.hasToQuit()) {}
+while(!surface.hasToQuit()) {}*/
+
+image = loadPng("/home/kkristof/work/gepard/fill-rect.png");
+print(image.width + " " + image.height);
+savePng(print,  "/home/kkristof/work/test.png");

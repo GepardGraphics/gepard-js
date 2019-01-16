@@ -2,6 +2,8 @@ set(GPJS_SOURCES
     gepardJs.cpp
     surfaceBiding.cpp
     gepardBiding.cpp
+    imageBiding.cpp
+    utils.cpp
 )
 
 add_executable(gepardJS ${GPJS_SOURCES})

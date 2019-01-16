@@ -1,4 +1,5 @@
 #include "gepardBiding.h"
+#include "imageBiding.h"
 #include "surfaceBiding.h"
 
 #include <jerryscript.h>
@@ -34,6 +35,7 @@ int main(int argc, char* argv[])
 
     bindXSurface();
     bindGepard();
+    bindImage();
 
     jerry_value_t eval_ret = jerry_eval((const jerry_char_t*)(jsCode.c_str()), jsCode.size(), JERRY_PARSE_NO_OPTS);
 

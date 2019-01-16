@@ -1,5 +1,6 @@
 #include "surfaceBiding.h"
 
+#include "utils.h"
 #include <jerryscript.h>
 #include <surfaces/gepard-xsurface.h>
 #include <iostream>
@@ -44,23 +45,12 @@ static jerry_value_t createXSurface(const jerry_value_t func_value, const jerry_
 
     jerry_value_t j_width = jerry_create_number(width);
     jerry_value_t j_height = jerry_create_number(height);
-
-    jerry_value_t prop_name = jerry_create_string ((const jerry_char_t *) "width");
-    jerry_set_property(object, prop_name, j_width);
-    jerry_release_value(prop_name);
+    registerProperty(object, j_width, "width");
+    registerProperty(object, j_height, "height");
     jerry_release_value(j_width);
-
-    jerry_value_t func_obj = jerry_create_external_function(surfaceHasToQuit);
-    prop_name = jerry_create_string((const jerry_char_t *) "hasToQuit");
-    jerry_set_property(object, prop_name, func_obj);
-
-    jerry_release_value(func_obj);
-    jerry_release_value(prop_name);
-
-    prop_name = jerry_create_string ((const jerry_char_t *) "height");
-    jerry_set_property(object, prop_name, j_height);
-    jerry_release_value(prop_name);
     jerry_release_value(j_height);
+
+    registerNativeFunction(object, surfaceHasToQuit, "hasToQuit");
 
     return object;
 }
