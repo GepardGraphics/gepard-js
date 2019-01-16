@@ -1,5 +1,6 @@
 #include "gepardBiding.h"
 
+#include "imageBiding.h"
 #include "surfaceBiding.h"
 #include "utils.h"
 #include <jerryscript.h>
@@ -55,6 +56,21 @@ static jerry_value_t setFillColor(const jerry_value_t func_value, const jerry_va
     return retVal;
 }
 
+static jerry_value_t getImageData(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx || args_cnt != 4) {
+        return jerry_create_undefined();
+    }
+    double x = jerry_get_number_value(args_p[0]);
+    double y = jerry_get_number_value(args_p[1]);
+    double w = jerry_get_number_value(args_p[2]);
+    double h = jerry_get_number_value(args_p[3]);
+
+    // TODO: Error checking
+    gepard::Image image = ctx->getImageData(x, y, w, h);
+    return createImageObject(image);
+}
 
 static jerry_value_t createGepard(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
@@ -94,6 +110,7 @@ void createGepardPrototype()
 
     registerNativeFunction(gpProto, fillRect, "fillRect");
     registerNativeFunction(gpProto, setFillColor, "setFillColor");
+    registerNativeFunction(gpProto, getImageData, "getImageData");
 
     jerry_value_t glob_obj_val = jerry_get_global_object();
     jerry_set_property(glob_obj_val, prop_name, gpProto);

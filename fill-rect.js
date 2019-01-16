@@ -24,3 +24,6 @@ gepard.fillRect(380, 380, 80, 130);
 gepard.setFillColor(220, 180, 40);
 gepard.fillRect(330, 320, 160, 60);
 while(!surface.hasToQuit()) {}
+
+image = gepard.getImageData(0, 0, surface.width, surface.height);
+savePng(image, "fill-rect-js.png");
