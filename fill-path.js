@@ -15,12 +15,14 @@ ctx.fill();
 
 ctx.fillStyle = "#f00";
 ctx.setFillColor(255, 0, 0);
+ctx.setStrokeColor(0, 0, 255);
 ctx.beginPath();
 ctx.moveTo(100, 100);
 ctx.lineTo(180, 200);
 ctx.bezierCurveTo(400, 200, 40, 50, 300, 250);
 ctx.closePath();
 ctx.fill();
+ctx.stroke();
 
 image = ctx.getImageData(0, 0, surface.width, surface.height);
 savePng(image, "temp/fill-path-js.png");

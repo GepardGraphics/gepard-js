@@ -73,6 +73,21 @@ static jerry_value_t setFillColor(const jerry_value_t func_value, const jerry_va
     return jerry_create_undefined();
 }
 
+static jerry_value_t setStrokeColor(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[4];
+    // Alpha is optional
+    params[3] = 1.0;
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 4, 3);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->setStrokeColor(params[0], params[1], params[2], params[3]);
+    return jerry_create_undefined();
+}
+
 static jerry_value_t getImageData(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
@@ -364,6 +379,7 @@ void createGepardPrototype()
     registerNativeFunction(gpProto, transform, "transform");
     registerNativeFunction(gpProto, setTransform, "setTransform");
     registerNativeFunction(gpProto, setFillColor, "setFillColor");
+    registerNativeFunction(gpProto, setStrokeColor, "setStrokeColor");
 
     jerry_value_t glob_obj_val = jerry_get_global_object();
     jerry_set_property(glob_obj_val, prop_name, gpProto);
