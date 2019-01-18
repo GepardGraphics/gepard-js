@@ -27,3 +27,11 @@ while(!surface.hasToQuit()) {}
 
 image = gepard.getImageData(0, 0, surface.width, surface.height);
 savePng(image, "temp/fill-rect-js.png");
+
+try {
+    fakeGepard = new Object();
+    fakeGepard.fillRect = gepard.fillRect;
+    fakeGepard.fillRect(10, 10, 40, 40);
+} catch(err) {
+    print(err);
+}
