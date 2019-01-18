@@ -45,7 +45,7 @@ jerry_value_t createImageObject(gepard::Image image)
 {
     // TODO: add copy constructor to gepard::Image
     gepard::Image* imagePtr = new gepard::Image(image.width(), image.height(), image.data());
-    std::cout << image.width() << " " << image.height() << std::endl;
+    std::cout << "createImage: " << image.width() << " " << image.height() << std::endl;
 
     jerry_value_t object = jerry_create_object();
     jerry_value_t j_width = jerry_create_number(imagePtr->width());

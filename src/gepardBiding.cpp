@@ -8,6 +8,7 @@
 #include <gepard.h>
 #include <iostream>
 #include <surfaces/gepard-xsurface.h>
+#include <string.h>
 #include <vector>
 
 static void native_gepard_freecb(void *native_p)
@@ -99,6 +100,102 @@ static jerry_value_t getImageData(const jerry_value_t func_value, const jerry_va
     }
     gepard::Image image = ctx->getImageData(params[0], params[1], params[2], params[3]);
     return createImageObject(image);
+}
+
+static jerry_value_t createImageData(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    gepard::Image image;
+    if (args_cnt != 1) {
+        double params[2];
+        const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 2, 2);
+        if (jerry_value_is_error(rv))
+        {
+            return rv;
+        }
+        image = ctx->createImageData(params[0], params[1]);
+    } else {
+        // TODO: this seems a bit messy
+        gepard::Image* imagePtr = getNativeImagePtr(args_p[0]);
+        const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, nullptr, 0, 0);
+        if (jerry_value_is_error(rv))
+        {
+            return rv;
+        }
+        if (!imagePtr) {
+            return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Image object!");
+        }
+        image = ctx->createImageData(*imagePtr);
+    }
+    return createImageObject(image);
+}
+
+static jerry_value_t drawImage(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    if (args_cnt == 0) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not enough arguments!");
+    }
+    gepard::Image* imagePtr = getNativeImagePtr(args_p[0]);
+    if (!imagePtr) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Image object!");
+    }
+    double params[8];
+    memset((void*)params, 0, 8 * sizeof(double));
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p + 1, args_cnt - 1, &ctx, params, 8, 2);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    switch (args_cnt) {
+    case 3:
+        ctx->drawImage(*imagePtr, params[0], params[1]);
+        break;
+    case 5:
+        ctx->drawImage(*imagePtr, params[0], params[1], params[2], params[3]);
+        break;
+    case 9:
+        ctx->drawImage(*imagePtr, params[0], params[1], params[2], params[3],
+                params[4], params[5], params[6], params[7]);
+        break;
+    default:
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Wrong number of arguments!");
+        break;
+    }
+    return jerry_create_undefined();
+}
+
+static jerry_value_t putImageData(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    // TODO: This is almost the same as the drawImage, reduce the cloned lines!
+    gepard::Gepard* ctx = nullptr;
+    if (args_cnt == 0) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not enough arguments!");
+    }
+    gepard::Image* imagePtr = getNativeImagePtr(args_p[0]);
+    if (!imagePtr) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Image object!");
+    }
+    double params[6];
+    memset((void*)params, 0, 6 * sizeof(double));
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p + 1, args_cnt - 1, &ctx, params, 6, 2);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    switch (args_cnt) {
+    case 3:
+        ctx->putImageData(*imagePtr, params[0], params[1]);
+        break;
+    case 9:
+        ctx->putImageData(*imagePtr, params[0], params[1], params[2], params[3],
+                params[4], params[5]);
+        break;
+    default:
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Wrong number of arguments!");
+        break;
+    }
+    return jerry_create_undefined();
 }
 
 static jerry_value_t closePath(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
@@ -355,7 +452,6 @@ void createGepardPrototype()
     jerry_value_t prop_name = jerry_create_string((const jerry_char_t *) "Gepard_proto");
 
     registerNativeFunction(gpProto, fillRect, "fillRect");
-    registerNativeFunction(gpProto, getImageData, "getImageData");
 
     // Path functions
     registerNativeFunction(gpProto, closePath, "closePath");
@@ -380,6 +476,12 @@ void createGepardPrototype()
     registerNativeFunction(gpProto, setTransform, "setTransform");
     registerNativeFunction(gpProto, setFillColor, "setFillColor");
     registerNativeFunction(gpProto, setStrokeColor, "setStrokeColor");
+
+    // Image functions
+    registerNativeFunction(gpProto, getImageData, "getImageData");
+    registerNativeFunction(gpProto, createImageData, "createImageData");
+    registerNativeFunction(gpProto, drawImage, "drawImage");
+    registerNativeFunction(gpProto, putImageData, "putImageData");
 
     jerry_value_t glob_obj_val = jerry_get_global_object();
     jerry_set_property(glob_obj_val, prop_name, gpProto);
@@ -412,4 +514,3 @@ gepard::Gepard *getNativeGepardPtr(jerry_value_t object)
         return reinterpret_cast<gepard::Gepard*>(nativePointer);
     return nullptr;
 }
-
