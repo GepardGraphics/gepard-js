@@ -22,12 +22,7 @@ static jerry_value_t loadPng(const jerry_value_t func_value, const jerry_value_t
     if (args_cnt != 1 && !jerry_value_is_string(args_p[0])) {
         return jerry_create_undefined();
     }
-    jerry_value_t rawString = args_p[0];
-    uint32_t length = jerry_get_string_length(rawString);
-    char* fileName = (char*)malloc(length + 1);
-    // TODO: support utf8
-    uint32_t copiedLength = jerry_string_to_char_buffer(rawString, (jerry_char_t*)fileName, length);
-    fileName[length] = '\0';
+    std::string fileName = getStringFromObject(args_p[0]);
     gepard::Image image = gepard::utils::loadPng(fileName);
     std::cout << fileName << std::endl;
     return createImageObject(image);
@@ -38,12 +33,7 @@ static jerry_value_t savePng(const jerry_value_t func_value, const jerry_value_t
     if (args_cnt != 2 && !jerry_value_is_string(args_p[1])) {
         return jerry_create_undefined();
     }
-    jerry_value_t rawString = args_p[1];
-    uint32_t length = jerry_get_string_length(rawString);
-    char* fileName = (char*)malloc(length + 1);
-    // TODO: support utf8
-    uint32_t copiedLength = jerry_string_to_char_buffer(rawString, (jerry_char_t*)fileName, length);
-    fileName[length] = '\0';
+    std::string fileName = getStringFromObject(args_p[1]);
     gepard::Image* image = getNativeImagePtr(args_p[0]);
     bool success = false;
     if (image)

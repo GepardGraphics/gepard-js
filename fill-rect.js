@@ -26,4 +26,4 @@ gepard.fillRect(330, 320, 160, 60);
 while(!surface.hasToQuit()) {}
 
 image = gepard.getImageData(0, 0, surface.width, surface.height);
-savePng(image, "fill-rect-js.png");
+savePng(image, "temp/fill-rect-js.png");
