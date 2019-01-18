@@ -126,6 +126,26 @@ static jerry_value_t stroke(const jerry_value_t func_value, const jerry_value_t 
     return jerry_create_undefined();
 }
 
+static jerry_value_t save(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    ctx->save();
+    return jerry_create_undefined();
+}
+
+static jerry_value_t restore(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    ctx->restore();
+    return jerry_create_undefined();
+}
+
 static jerry_value_t moveTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
@@ -249,14 +269,80 @@ static jerry_value_t createGepard(const jerry_value_t func_value, const jerry_va
     return object;
 }
 
+static jerry_value_t scale(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[2];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 2, 2);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->scale(params[0], params[1]);
+    return jerry_create_undefined();
+}
+
+static jerry_value_t translate(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[2];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 2, 2);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->translate(params[0], params[1]);
+    return jerry_create_undefined();
+}
+
+static jerry_value_t rotate(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params;
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, &params, 1, 1);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->rotate(params);
+    return jerry_create_undefined();
+}
+
+static jerry_value_t transform(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[6];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 6, 6);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->transform(params[0], params[1], params[2], params[3], params[4], params[5]);
+    return jerry_create_undefined();
+}
+
+static jerry_value_t setTransform(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[6];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 6, 6);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->setTransform(params[0], params[1], params[2], params[3], params[4], params[5]);
+    return jerry_create_undefined();
+}
+
 void createGepardPrototype()
 {
     jerry_value_t gpProto = jerry_create_object();
     jerry_value_t prop_name = jerry_create_string((const jerry_char_t *) "Gepard_proto");
 
     registerNativeFunction(gpProto, fillRect, "fillRect");
-    registerNativeFunction(gpProto, setFillColor, "setFillColor");
     registerNativeFunction(gpProto, getImageData, "getImageData");
+
+    // Path functions
     registerNativeFunction(gpProto, closePath, "closePath");
     registerNativeFunction(gpProto, beginPath, "beginPath");
     registerNativeFunction(gpProto, fill, "fill");
@@ -268,6 +354,16 @@ void createGepardPrototype()
     registerNativeFunction(gpProto, arcTo, "arcTo");
     registerNativeFunction(gpProto, arc, "arc");
     registerNativeFunction(gpProto, rect, "rect");
+
+    // State functions
+    registerNativeFunction(gpProto, save, "save");
+    registerNativeFunction(gpProto, restore, "restore");
+    registerNativeFunction(gpProto, scale, "scale");
+    registerNativeFunction(gpProto, rotate, "rotate");
+    registerNativeFunction(gpProto, translate, "translate");
+    registerNativeFunction(gpProto, transform, "transform");
+    registerNativeFunction(gpProto, setTransform, "setTransform");
+    registerNativeFunction(gpProto, setFillColor, "setFillColor");
 
     jerry_value_t glob_obj_val = jerry_get_global_object();
     jerry_set_property(glob_obj_val, prop_name, gpProto);
