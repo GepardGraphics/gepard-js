@@ -75,18 +75,147 @@ static jerry_value_t setFillColor(const jerry_value_t func_value, const jerry_va
 
 static jerry_value_t getImageData(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
-    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
-    if (!ctx || args_cnt != 4) {
-        return jerry_create_undefined();
+    gepard::Gepard* ctx = nullptr;
+    double params[4];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 4, 4);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
     }
-    double x = jerry_get_number_value(args_p[0]);
-    double y = jerry_get_number_value(args_p[1]);
-    double w = jerry_get_number_value(args_p[2]);
-    double h = jerry_get_number_value(args_p[3]);
-
-    // TODO: Error checking
-    gepard::Image image = ctx->getImageData(x, y, w, h);
+    gepard::Image image = ctx->getImageData(params[0], params[1], params[2], params[3]);
     return createImageObject(image);
+}
+
+static jerry_value_t closePath(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    ctx->closePath();
+    return jerry_create_undefined();
+}
+
+static jerry_value_t beginPath(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    ctx->beginPath();
+    return jerry_create_undefined();
+}
+
+static jerry_value_t fill(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    ctx->fill();
+    return jerry_create_undefined();
+}
+
+static jerry_value_t stroke(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    ctx->stroke();
+    return jerry_create_undefined();
+}
+
+static jerry_value_t moveTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[2];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 2, 2);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->moveTo(params[0], params[1]);
+    return jerry_create_undefined();
+}
+
+static jerry_value_t lineTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[2];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 2, 2);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->lineTo(params[0], params[1]);
+    return jerry_create_undefined();
+}
+
+static jerry_value_t quadraticCurveTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[4];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 4, 4);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->quadraticCurveTo(params[0], params[1], params[2], params[3]);
+    return jerry_create_undefined();
+}
+
+static jerry_value_t bezierCurveTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[6];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 6, 6);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->bezierCurveTo(params[0], params[1], params[2], params[3], params[4], params[5]);
+    return jerry_create_undefined();
+}
+
+static jerry_value_t arcTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[5];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 5, 5);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->arcTo(params[0], params[1], params[2], params[3], params[4]);
+    return jerry_create_undefined();
+}
+
+
+static jerry_value_t rect(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[4];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 4, 4);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->rect(params[0], params[1], params[2], params[3]);
+    return jerry_create_undefined();
+}
+
+static jerry_value_t arc(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = nullptr;
+    double params[6];
+    const jerry_value_t rv = getDoubleArgs(this_val, args_p, args_cnt, &ctx, params, 6, 6);
+    if (jerry_value_is_error(rv))
+    {
+        return rv;
+    }
+    ctx->arc(params[0], params[1], params[2], params[3], params[4], params[5]);
+    return jerry_create_undefined();
 }
 
 static jerry_value_t createGepard(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
@@ -128,6 +257,17 @@ void createGepardPrototype()
     registerNativeFunction(gpProto, fillRect, "fillRect");
     registerNativeFunction(gpProto, setFillColor, "setFillColor");
     registerNativeFunction(gpProto, getImageData, "getImageData");
+    registerNativeFunction(gpProto, closePath, "closePath");
+    registerNativeFunction(gpProto, beginPath, "beginPath");
+    registerNativeFunction(gpProto, fill, "fill");
+    registerNativeFunction(gpProto, stroke, "stroke");
+    registerNativeFunction(gpProto, moveTo, "moveTo");
+    registerNativeFunction(gpProto, lineTo, "lineTo");
+    registerNativeFunction(gpProto, quadraticCurveTo, "quadraticCurveTo");
+    registerNativeFunction(gpProto, bezierCurveTo, "bezierCurveTo");
+    registerNativeFunction(gpProto, arcTo, "arcTo");
+    registerNativeFunction(gpProto, arc, "arc");
+    registerNativeFunction(gpProto, rect, "rect");
 
     jerry_value_t glob_obj_val = jerry_get_global_object();
     jerry_set_property(glob_obj_val, prop_name, gpProto);
