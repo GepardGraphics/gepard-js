@@ -46,6 +46,20 @@ jerry_value_t getDoubleArgs(const jerry_value_t this_val, const jerry_value_t *a
     return jerryx_arg_transform_this_and_args(this_val, args_p, args_cnt, mapping.data(), paramsCnt + 1);
 }
 
+jerry_value_t attributeSetterHelper(const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt, gepard::Gepard** ctx, std::string& attribute)
+{
+    *ctx = getNativeGepardPtr(this_val);
+    if (!*ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    if (args_cnt != 1 && !jerry_value_is_string(args_p[0])) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Wrong arguments!");
+    }
+
+    attribute = getStringFromObject(args_p[0]);
+    return jerry_create_undefined();
+}
+
 static jerry_value_t fillRect(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
@@ -350,6 +364,31 @@ static jerry_value_t arc(const jerry_value_t func_value, const jerry_value_t thi
     return jerry_create_undefined();
 }
 
+static jerry_value_t fillStyleSetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx;
+    std::string attribute;
+    jerry_value_t retVal = attributeSetterHelper(this_val, args_p, args_cnt, &ctx, attribute);
+    if (!jerry_value_is_error(retVal)) {
+        ctx->fillStyle = attribute;
+    }
+
+    // What the heck I'm supposed to return
+    // returning and object doesn't do anything
+    // defining the getter (see below) shadows the proper jerry_object setting
+    return retVal;
+}
+
+static jerry_value_t fillStyleGetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    std::string style = ctx->fillStyle;
+    return jerry_create_string((const jerry_char_t *)style.c_str()); //jerry_create_undefined();
+}
+
 static jerry_value_t createGepard(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
@@ -446,6 +485,25 @@ static jerry_value_t setTransform(const jerry_value_t func_value, const jerry_va
     return jerry_create_undefined();
 }
 
+void registerPropertyDesctiptor(jerry_value_t object)
+{
+    jerry_property_descriptor_t propDesc;
+    jerry_value_t function = jerry_create_external_function(fillStyleSetter);
+    jerry_init_property_descriptor_fields(&propDesc);
+    propDesc.setter = function;
+    propDesc.is_set_defined = true;
+    jerry_release_value(function);
+    function = jerry_create_external_function(fillStyleGetter);
+    propDesc.getter = function;
+    propDesc.is_get_defined = true;
+    jerry_value_t prop_name = jerry_create_string ((const jerry_char_t *) "fillStyle");
+    jerry_value_t retval = jerry_define_own_property (object, prop_name, &propDesc);
+    jerry_release_value(retval);
+    jerry_release_value(function);
+    jerry_release_value(prop_name);
+    jerry_free_property_descriptor_fields(&propDesc);
+}
+
 void createGepardPrototype()
 {
     jerry_value_t gpProto = jerry_create_object();
@@ -482,6 +540,8 @@ void createGepardPrototype()
     registerNativeFunction(gpProto, createImageData, "createImageData");
     registerNativeFunction(gpProto, drawImage, "drawImage");
     registerNativeFunction(gpProto, putImageData, "putImageData");
+
+    registerPropertyDesctiptor(gpProto);
 
     jerry_value_t glob_obj_val = jerry_get_global_object();
     jerry_set_property(glob_obj_val, prop_name, gpProto);

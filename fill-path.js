@@ -14,7 +14,7 @@ ctx.closePath();
 ctx.fill();
 
 ctx.fillStyle = "#f00";
-ctx.setFillColor(255, 0, 0);
+//ctx.setFillColor(255, 0, 0);
 ctx.setStrokeColor(0, 0, 255);
 ctx.beginPath();
 ctx.moveTo(100, 100);
