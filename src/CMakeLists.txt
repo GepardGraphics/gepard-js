@@ -2,6 +2,7 @@ set(GPJS_SOURCES
     gepardJs.cpp
     surfaceBiding.cpp
     gepardBiding.cpp
+    gepardAttributeBinding.cpp
     imageBiding.cpp
     utils.cpp
 )

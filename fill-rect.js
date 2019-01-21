@@ -10,13 +10,12 @@ gepard.fillRect(100, 100, 80, 400);
 gepard.setFillColor(0, 0, 26, 0.8);
 gepard.fillRect(100, 420, 280, 80);
 
-gepard.setFillColor(77, 0, 179);
+gepard.fillStyle = "#4d00b3";
 gepard.fillRect(180, 100, 200, 80);
 
 gepard.setFillColor(77, 179, 51);
 gepard.fillRect(380, 80, 80, 130);
 
-// isn't working yet
 gepard.fillStyle = "#af5f4f";
 gepard.fillRect(380, 380, 80, 130);
 
