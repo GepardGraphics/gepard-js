@@ -165,18 +165,14 @@ static jerry_value_t miterLimitGetter(const jerry_value_t func_value, const jerr
 void registerPropertyDesctiptor(jerry_value_t object, jerry_external_handler_t setter, jerry_external_handler_t getter, std::string name)
 {
     jerry_property_descriptor_t propDesc;
-    jerry_value_t function = jerry_create_external_function(setter);
     jerry_init_property_descriptor_fields(&propDesc);
-    propDesc.setter = function;
+    propDesc.setter = jerry_create_external_function(setter);
     propDesc.is_set_defined = true;
-    jerry_release_value(function);
-    function = jerry_create_external_function(getter);
-    propDesc.getter = function;
+    propDesc.getter = jerry_create_external_function(getter);
     propDesc.is_get_defined = true;
     jerry_value_t prop_name = jerry_create_string ((const jerry_char_t *) name.c_str());
     jerry_value_t retval = jerry_define_own_property (object, prop_name, &propDesc);
     jerry_release_value(retval);
-    jerry_release_value(function);
     jerry_release_value(prop_name);
     jerry_free_property_descriptor_fields(&propDesc);
 }
