@@ -12,6 +12,12 @@ static void native_image_freecb(void *native_p)
     ctx = nullptr;
 }
 
+static void native_image_data_freecb(void *native_p)
+{
+    // Nothing else to do, the image's back buffer is going to be freed with the native image
+    native_p = nullptr;
+}
+
 static const jerry_object_native_info_t native_image_type_info =
 {
     native_image_freecb
@@ -45,7 +51,7 @@ jerry_value_t createImageObject(gepard::Image image)
 {
     // TODO: add copy constructor to gepard::Image
     gepard::Image* imagePtr = new gepard::Image(image.width(), image.height(), image.data());
-    std::cout << "createImage: " << image.width() << " " << image.height() << std::endl;
+    std::cout << "createImageObject: " << image.width() << " " << image.height() << std::endl;
 
     jerry_value_t object = jerry_create_object();
     jerry_value_t j_width = jerry_create_number(imagePtr->width());
@@ -55,6 +61,12 @@ jerry_value_t createImageObject(gepard::Image image)
     jerry_release_value(j_width);
     jerry_release_value(j_height);
     jerry_set_object_native_pointer(object, imagePtr, &native_image_type_info);
+    // The const cast isn't nice, add access to the image data in the gepard
+    jerry_value_t typeArray = jerry_create_arraybuffer_external(imagePtr->data().size() * sizeof(uint32_t),
+        reinterpret_cast<uint8_t*>(const_cast<uint32_t*>(imagePtr->data().data())), native_image_data_freecb);
+
+    registerProperty(object, typeArray, "data");
+    jerry_release_value(typeArray);
 
     return object;
 }
