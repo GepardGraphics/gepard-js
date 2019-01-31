@@ -1,8 +1,8 @@
-#include "gepardBiding.h"
+#include "gepardBinding.h"
 
 #include "gepardAttributeBinding.h"
-#include "imageBiding.h"
-#include "surfaceBiding.h"
+#include "gepardImageBinding.h"
+#include "gepardSurfaceBinding.h"
 #include "utils.h"
 #include <jerryscript.h>
 #include <jerryscript-ext/arg.h>

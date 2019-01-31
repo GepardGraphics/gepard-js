@@ -1,6 +1,6 @@
 #include "gepardAttributeBinding.h"
 
-#include "gepardBiding.h"
+#include "gepardBinding.h"
 #include "utils.h"
 #include <gepard.h>
 #include <jerryscript.h>

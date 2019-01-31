@@ -1,4 +1,4 @@
-#include "imageBiding.h"
+#include "gepardImageBinding.h"
 
 #include "utils.h"
 #include <iostream>
@@ -23,7 +23,7 @@ static const jerry_object_native_info_t native_image_type_info =
     native_image_freecb
 };
 
-static jerry_value_t loadPng(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t loadPngHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     if (args_cnt != 1 && !jerry_value_is_string(args_p[0])) {
         return jerry_create_undefined();
@@ -34,7 +34,7 @@ static jerry_value_t loadPng(const jerry_value_t func_value, const jerry_value_t
     return createImageObject(image);
 }
 
-static jerry_value_t savePng(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t savePngHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     if (args_cnt != 2 && !jerry_value_is_string(args_p[1])) {
         return jerry_create_undefined();
@@ -74,8 +74,8 @@ jerry_value_t createImageObject(gepard::Image image)
 void bindImage()
 {
     jerry_value_t glob_obj_val = jerry_get_global_object();
-    registerNativeFunction(glob_obj_val, loadPng, "loadPng");
-    registerNativeFunction(glob_obj_val, savePng, "savePng");
+    registerNativeFunction(glob_obj_val, loadPngHandler, "loadPng");
+    registerNativeFunction(glob_obj_val, savePngHandler, "savePng");
 
     jerry_release_value(glob_obj_val);
 }

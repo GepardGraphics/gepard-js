@@ -1,4 +1,4 @@
-#include "surfaceBiding.h"
+#include "gepardSurfaceBinding.h"
 
 #include "utils.h"
 #include <jerryscript.h>
