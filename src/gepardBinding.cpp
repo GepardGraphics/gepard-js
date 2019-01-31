@@ -47,7 +47,7 @@ jerry_value_t getDoubleArgs(const jerry_value_t this_val, const jerry_value_t *a
     return jerryx_arg_transform_this_and_args(this_val, args_p, args_cnt, mapping.data(), paramsCnt + 1);
 }
 
-static jerry_value_t fillRect(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t fillRectHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[4];
@@ -60,7 +60,7 @@ static jerry_value_t fillRect(const jerry_value_t func_value, const jerry_value_
     return jerry_create_undefined();
 }
 
-static jerry_value_t setFillColor(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t setFillColorHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[4];
@@ -75,7 +75,7 @@ static jerry_value_t setFillColor(const jerry_value_t func_value, const jerry_va
     return jerry_create_undefined();
 }
 
-static jerry_value_t setStrokeColor(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t setStrokeColorHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[4];
@@ -90,7 +90,7 @@ static jerry_value_t setStrokeColor(const jerry_value_t func_value, const jerry_
     return jerry_create_undefined();
 }
 
-static jerry_value_t getImageData(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t getImageDataHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[4];
@@ -103,7 +103,7 @@ static jerry_value_t getImageData(const jerry_value_t func_value, const jerry_va
     return createImageObject(image);
 }
 
-static jerry_value_t createImageData(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t createImageDataHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     gepard::Image image;
@@ -131,7 +131,7 @@ static jerry_value_t createImageData(const jerry_value_t func_value, const jerry
     return createImageObject(image);
 }
 
-static jerry_value_t drawImage(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t drawImageHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     if (args_cnt == 0) {
@@ -166,7 +166,7 @@ static jerry_value_t drawImage(const jerry_value_t func_value, const jerry_value
     return jerry_create_undefined();
 }
 
-static jerry_value_t putImageData(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t putImageDataHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     // TODO: This is almost the same as the drawImage, reduce the cloned lines!
     gepard::Gepard* ctx = nullptr;
@@ -199,7 +199,7 @@ static jerry_value_t putImageData(const jerry_value_t func_value, const jerry_va
     return jerry_create_undefined();
 }
 
-static jerry_value_t closePath(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t closePathHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -209,7 +209,7 @@ static jerry_value_t closePath(const jerry_value_t func_value, const jerry_value
     return jerry_create_undefined();
 }
 
-static jerry_value_t beginPath(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t beginPathHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -219,7 +219,7 @@ static jerry_value_t beginPath(const jerry_value_t func_value, const jerry_value
     return jerry_create_undefined();
 }
 
-static jerry_value_t fill(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t fillHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -229,7 +229,7 @@ static jerry_value_t fill(const jerry_value_t func_value, const jerry_value_t th
     return jerry_create_undefined();
 }
 
-static jerry_value_t stroke(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t strokeHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -239,7 +239,7 @@ static jerry_value_t stroke(const jerry_value_t func_value, const jerry_value_t 
     return jerry_create_undefined();
 }
 
-static jerry_value_t save(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t saveHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -249,7 +249,7 @@ static jerry_value_t save(const jerry_value_t func_value, const jerry_value_t th
     return jerry_create_undefined();
 }
 
-static jerry_value_t restore(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t restoreHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -259,7 +259,7 @@ static jerry_value_t restore(const jerry_value_t func_value, const jerry_value_t
     return jerry_create_undefined();
 }
 
-static jerry_value_t moveTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t moveToHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[2];
@@ -272,7 +272,7 @@ static jerry_value_t moveTo(const jerry_value_t func_value, const jerry_value_t 
     return jerry_create_undefined();
 }
 
-static jerry_value_t lineTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t lineToHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[2];
@@ -285,7 +285,7 @@ static jerry_value_t lineTo(const jerry_value_t func_value, const jerry_value_t 
     return jerry_create_undefined();
 }
 
-static jerry_value_t quadraticCurveTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t quadraticCurveToHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[4];
@@ -298,7 +298,7 @@ static jerry_value_t quadraticCurveTo(const jerry_value_t func_value, const jerr
     return jerry_create_undefined();
 }
 
-static jerry_value_t bezierCurveTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t bezierCurveToHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[6];
@@ -311,7 +311,7 @@ static jerry_value_t bezierCurveTo(const jerry_value_t func_value, const jerry_v
     return jerry_create_undefined();
 }
 
-static jerry_value_t arcTo(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t arcToHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[5];
@@ -325,7 +325,7 @@ static jerry_value_t arcTo(const jerry_value_t func_value, const jerry_value_t t
 }
 
 
-static jerry_value_t rect(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t rectHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[4];
@@ -338,7 +338,7 @@ static jerry_value_t rect(const jerry_value_t func_value, const jerry_value_t th
     return jerry_create_undefined();
 }
 
-static jerry_value_t arc(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t arcHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[6];
@@ -351,7 +351,7 @@ static jerry_value_t arc(const jerry_value_t func_value, const jerry_value_t thi
     return jerry_create_undefined();
 }
 
-static jerry_value_t createGepard(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t createGepardHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     gepard::XSurface* surface = nullptr;
@@ -382,7 +382,7 @@ static jerry_value_t createGepard(const jerry_value_t func_value, const jerry_va
     return object;
 }
 
-static jerry_value_t scale(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t scaleHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[2];
@@ -395,7 +395,7 @@ static jerry_value_t scale(const jerry_value_t func_value, const jerry_value_t t
     return jerry_create_undefined();
 }
 
-static jerry_value_t translate(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t translateHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[2];
@@ -408,7 +408,7 @@ static jerry_value_t translate(const jerry_value_t func_value, const jerry_value
     return jerry_create_undefined();
 }
 
-static jerry_value_t rotate(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t rotateHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params;
@@ -421,7 +421,7 @@ static jerry_value_t rotate(const jerry_value_t func_value, const jerry_value_t 
     return jerry_create_undefined();
 }
 
-static jerry_value_t transform(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t transformHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[6];
@@ -434,7 +434,7 @@ static jerry_value_t transform(const jerry_value_t func_value, const jerry_value
     return jerry_create_undefined();
 }
 
-static jerry_value_t setTransform(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t setTransformHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
     double params[6];
@@ -452,37 +452,37 @@ void createGepardPrototype()
     jerry_value_t gpProto = jerry_create_object();
     jerry_value_t prop_name = jerry_create_string((const jerry_char_t *) "Gepard_proto");
 
-    registerNativeFunction(gpProto, fillRect, "fillRect");
+    registerNativeFunction(gpProto, fillRectHandler, "fillRect");
 
     // Path functions
-    registerNativeFunction(gpProto, closePath, "closePath");
-    registerNativeFunction(gpProto, beginPath, "beginPath");
-    registerNativeFunction(gpProto, fill, "fill");
-    registerNativeFunction(gpProto, stroke, "stroke");
-    registerNativeFunction(gpProto, moveTo, "moveTo");
-    registerNativeFunction(gpProto, lineTo, "lineTo");
-    registerNativeFunction(gpProto, quadraticCurveTo, "quadraticCurveTo");
-    registerNativeFunction(gpProto, bezierCurveTo, "bezierCurveTo");
-    registerNativeFunction(gpProto, arcTo, "arcTo");
-    registerNativeFunction(gpProto, arc, "arc");
-    registerNativeFunction(gpProto, rect, "rect");
+    registerNativeFunction(gpProto, closePathHandler, "closePath");
+    registerNativeFunction(gpProto, beginPathHandler, "beginPath");
+    registerNativeFunction(gpProto, fillHandler, "fill");
+    registerNativeFunction(gpProto, strokeHandler, "stroke");
+    registerNativeFunction(gpProto, moveToHandler, "moveTo");
+    registerNativeFunction(gpProto, lineToHandler, "lineTo");
+    registerNativeFunction(gpProto, quadraticCurveToHandler, "quadraticCurveTo");
+    registerNativeFunction(gpProto, bezierCurveToHandler, "bezierCurveTo");
+    registerNativeFunction(gpProto, arcToHandler, "arcTo");
+    registerNativeFunction(gpProto, arcHandler, "arc");
+    registerNativeFunction(gpProto, rectHandler, "rect");
 
     // State functions
-    registerNativeFunction(gpProto, save, "save");
-    registerNativeFunction(gpProto, restore, "restore");
-    registerNativeFunction(gpProto, scale, "scale");
-    registerNativeFunction(gpProto, rotate, "rotate");
-    registerNativeFunction(gpProto, translate, "translate");
-    registerNativeFunction(gpProto, transform, "transform");
-    registerNativeFunction(gpProto, setTransform, "setTransform");
-    registerNativeFunction(gpProto, setFillColor, "setFillColor");
-    registerNativeFunction(gpProto, setStrokeColor, "setStrokeColor");
+    registerNativeFunction(gpProto, saveHandler, "save");
+    registerNativeFunction(gpProto, restoreHandler, "restore");
+    registerNativeFunction(gpProto, scaleHandler, "scale");
+    registerNativeFunction(gpProto, rotateHandler, "rotate");
+    registerNativeFunction(gpProto, translateHandler, "translate");
+    registerNativeFunction(gpProto, transformHandler, "transform");
+    registerNativeFunction(gpProto, setTransformHandler, "setTransform");
+    registerNativeFunction(gpProto, setFillColorHandler, "setFillColor");
+    registerNativeFunction(gpProto, setStrokeColorHandler, "setStrokeColor");
 
     // Image functions
-    registerNativeFunction(gpProto, getImageData, "getImageData");
-    registerNativeFunction(gpProto, createImageData, "createImageData");
-    registerNativeFunction(gpProto, drawImage, "drawImage");
-    registerNativeFunction(gpProto, putImageData, "putImageData");
+    registerNativeFunction(gpProto, getImageDataHandler, "getImageData");
+    registerNativeFunction(gpProto, createImageDataHandler, "createImageData");
+    registerNativeFunction(gpProto, drawImageHandler, "drawImage");
+    registerNativeFunction(gpProto, putImageDataHandler, "putImageData");
 
     bindGepardAttributes(gpProto);
 
@@ -497,7 +497,7 @@ void createGepardPrototype()
 void bindGepard()
 {
     createGepardPrototype();
-    jerry_value_t func_obj = jerry_create_external_function (createGepard);
+    jerry_value_t func_obj = jerry_create_external_function (createGepardHandler);
     jerry_value_t prop_name = jerry_create_string((const jerry_char_t *) "Gepard");
 
     jerry_value_t glob_obj_val = jerry_get_global_object();

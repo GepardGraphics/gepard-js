@@ -19,7 +19,7 @@ static const jerry_object_native_info_t native_surface_type_info =
     native_surface_freecb
 };
 
-static jerry_value_t surfaceHasToQuit(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t surfaceHasToQuitHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     bool result = true;
     gepard::XSurface* surface = getNativeXSurfacePtr(this_val);
@@ -29,7 +29,7 @@ static jerry_value_t surfaceHasToQuit(const jerry_value_t func_value, const jerr
     return jerry_create_boolean(result);
 }
 
-static jerry_value_t createXSurface(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t createXSurfaceHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::XSurface* surface = nullptr;
     double width = 600;
@@ -50,14 +50,14 @@ static jerry_value_t createXSurface(const jerry_value_t func_value, const jerry_
     jerry_release_value(j_width);
     jerry_release_value(j_height);
 
-    registerNativeFunction(object, surfaceHasToQuit, "hasToQuit");
+    registerNativeFunction(object, surfaceHasToQuitHandler, "hasToQuit");
 
     return object;
 }
 
 void bindXSurface()
 {
-    jerry_value_t func_obj = jerry_create_external_function (createXSurface);
+    jerry_value_t func_obj = jerry_create_external_function (createXSurfaceHandler);
     jerry_value_t prop_name = jerry_create_string((const jerry_char_t *) "createXSurface");
 
     jerry_value_t glob_obj_val = jerry_get_global_object();

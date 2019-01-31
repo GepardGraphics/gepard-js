@@ -33,7 +33,7 @@ jerry_value_t attributeNumberHelper(const jerry_value_t this_val, const jerry_va
     return jerry_create_undefined();
 }
 
-static jerry_value_t fillStyleSetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t fillStyleSetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx;
     std::string attribute;
@@ -48,7 +48,7 @@ static jerry_value_t fillStyleSetter(const jerry_value_t func_value, const jerry
     return retVal;
 }
 
-static jerry_value_t fillStyleGetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t fillStyleGetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -58,7 +58,7 @@ static jerry_value_t fillStyleGetter(const jerry_value_t func_value, const jerry
     return jerry_create_string((const jerry_char_t *)style.c_str());
 }
 
-static jerry_value_t strokeStyleSetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t strokeStyleSetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx;
     std::string attribute;
@@ -69,7 +69,7 @@ static jerry_value_t strokeStyleSetter(const jerry_value_t func_value, const jer
     return retVal;
 }
 
-static jerry_value_t strokeStyleGetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t strokeStyleGetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -79,7 +79,7 @@ static jerry_value_t strokeStyleGetter(const jerry_value_t func_value, const jer
     return jerry_create_string((const jerry_char_t *)style.c_str());
 }
 
-static jerry_value_t lineCapSetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t lineCapSetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx;
     std::string attribute;
@@ -90,7 +90,7 @@ static jerry_value_t lineCapSetter(const jerry_value_t func_value, const jerry_v
     return retVal;
 }
 
-static jerry_value_t lineCapGetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t lineCapGetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -100,7 +100,7 @@ static jerry_value_t lineCapGetter(const jerry_value_t func_value, const jerry_v
     return jerry_create_string((const jerry_char_t *)style.c_str());
 }
 
-static jerry_value_t lineJoinSetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t lineJoinSetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx;
     std::string attribute;
@@ -111,7 +111,7 @@ static jerry_value_t lineJoinSetter(const jerry_value_t func_value, const jerry_
     return retVal;
 }
 
-static jerry_value_t lineJoinGetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t lineJoinGetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -121,7 +121,7 @@ static jerry_value_t lineJoinGetter(const jerry_value_t func_value, const jerry_
     return jerry_create_string((const jerry_char_t *)style.c_str());
 }
 
-static jerry_value_t lineWidthSetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t lineWidthSetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx;
     double attribute;
@@ -132,7 +132,7 @@ static jerry_value_t lineWidthSetter(const jerry_value_t func_value, const jerry
     return retVal;
 }
 
-static jerry_value_t lineWidthGetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t lineWidthGetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -141,7 +141,7 @@ static jerry_value_t lineWidthGetter(const jerry_value_t func_value, const jerry
     return jerry_create_number(ctx->lineWidth);
 }
 
-static jerry_value_t miterLimitSetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t miterLimitSetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx;
     double attribute;
@@ -152,7 +152,7 @@ static jerry_value_t miterLimitSetter(const jerry_value_t func_value, const jerr
     return retVal;
 }
 
-static jerry_value_t miterLimitGetter(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+jerry_value_t miterLimitGetterHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = getNativeGepardPtr(this_val);
     if (!ctx) {
@@ -160,7 +160,6 @@ static jerry_value_t miterLimitGetter(const jerry_value_t func_value, const jerr
     }
     return jerry_create_number(ctx->miterLimit);
 }
-
 
 void registerPropertyDesctiptor(jerry_value_t object, jerry_external_handler_t setter, jerry_external_handler_t getter, std::string name)
 {
@@ -179,10 +178,10 @@ void registerPropertyDesctiptor(jerry_value_t object, jerry_external_handler_t s
 
 void bindGepardAttributes(jerry_value_t object)
 {
-    registerPropertyDesctiptor(object, fillStyleSetter, fillStyleGetter, "fillStyle");
-    registerPropertyDesctiptor(object, strokeStyleSetter, strokeStyleGetter, "strokeStyle");
-    registerPropertyDesctiptor(object, lineCapSetter, lineCapGetter, "lineCap");
-    registerPropertyDesctiptor(object, lineJoinSetter, lineJoinGetter, "lineJoin");
-    registerPropertyDesctiptor(object, lineWidthSetter, lineWidthGetter, "lineWidth");
-    registerPropertyDesctiptor(object, miterLimitSetter, miterLimitGetter, "miterLimit");
+    registerPropertyDesctiptor(object, fillStyleSetterHandler, fillStyleGetterHandler, "fillStyle");
+    registerPropertyDesctiptor(object, strokeStyleSetterHandler, strokeStyleGetterHandler, "strokeStyle");
+    registerPropertyDesctiptor(object, lineCapSetterHandler, lineCapGetterHandler, "lineCap");
+    registerPropertyDesctiptor(object, lineJoinSetterHandler, lineJoinGetterHandler, "lineJoin");
+    registerPropertyDesctiptor(object, lineWidthSetterHandler, lineWidthGetterHandler, "lineWidth");
+    registerPropertyDesctiptor(object, miterLimitSetterHandler, miterLimitGetterHandler, "miterLimit");
 }
