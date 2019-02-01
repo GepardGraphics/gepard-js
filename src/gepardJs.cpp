@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 
     jerryx_handler_register_global((const jerry_char_t *) "print", jerryx_handler_print);
 
-    bindXSurface();
+    bindSurface();
     bindGepard();
     bindImage();
 

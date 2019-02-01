@@ -354,9 +354,9 @@ jerry_value_t arcHandler(const jerry_value_t func_value, const jerry_value_t thi
 jerry_value_t createGepardHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
 {
     gepard::Gepard* ctx = nullptr;
-    gepard::XSurface* surface = nullptr;
+    gepard::Surface* surface = nullptr;
     if (args_cnt == 1)
-        surface = getNativeXSurfacePtr(args_p[0]);
+        surface = getNativeSurfacePtr(args_p[0]);
 
     if (!surface)
         return jerry_create_undefined();
