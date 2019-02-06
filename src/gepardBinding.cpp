@@ -447,6 +447,39 @@ jerry_value_t setTransformHandler(const jerry_value_t func_value, const jerry_va
     return jerry_create_undefined();
 }
 
+#if USE_GEPARD_EXPERIMENTAL
+jerry_value_t expFinishHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    ctx->finish();
+    return jerry_create_undefined();
+}
+
+jerry_value_t expSetPresentModeOnDemandHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    ctx->setPresentMode(gepard::Gepard::PresentOnDemand);
+    return jerry_create_undefined();
+}
+
+jerry_value_t expSetPresentModeImmediateHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt)
+{
+    gepard::Gepard* ctx = getNativeGepardPtr(this_val);
+    if (!ctx) {
+        return jerry_create_error(JERRY_ERROR_COMMON, (const jerry_char_t*)"Not a native Gepard object!");
+    }
+    ctx->setPresentMode(gepard::Gepard::PresentImmediate);
+    return jerry_create_undefined();
+}
+
+#endif // USE_GEPARD_EXPERIMENTAL
+
 void createGepardPrototype()
 {
     jerry_value_t gpProto = jerry_create_object();
@@ -483,6 +516,12 @@ void createGepardPrototype()
     registerNativeFunction(gpProto, createImageDataHandler, "createImageData");
     registerNativeFunction(gpProto, drawImageHandler, "drawImage");
     registerNativeFunction(gpProto, putImageDataHandler, "putImageData");
+
+#if USE_GEPARD_EXPERIMENTAL
+    registerNativeFunction(gpProto, expFinishHandler, "finish");
+    registerNativeFunction(gpProto, expSetPresentModeOnDemandHandler, "setPresentModeOnDemand");
+    registerNativeFunction(gpProto, expSetPresentModeImmediateHandler, "setPresentModeImmediate");
+#endif // USE_GEPARD_EXPERIMENTAL
 
     bindGepardAttributes(gpProto);
 
