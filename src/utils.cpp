@@ -23,8 +23,8 @@ std::string getStringFromObject(jerry_value_t object)
     // TODO: support utf8
     assert(jerry_value_is_string(object));
     uint32_t length = jerry_get_string_length(object);
-    char* fileName = (char*)malloc(length + 1);
-    uint32_t copiedLength = jerry_string_to_char_buffer(object, (jerry_char_t*)fileName, length);
-    fileName[length] = '\0';
-    return fileName;
+    char* buffer = (char*)malloc(length + 1);
+    uint32_t copiedLength = jerry_string_to_char_buffer(object, (jerry_char_t*)buffer, length);
+    buffer[length] = '\0';
+    return buffer;
 }

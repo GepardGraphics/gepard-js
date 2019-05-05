@@ -161,7 +161,7 @@ jerry_value_t miterLimitGetterHandler(const jerry_value_t func_value, const jerr
     return jerry_create_number(ctx->miterLimit);
 }
 
-void registerPropertyDesctiptor(jerry_value_t object, jerry_external_handler_t setter, jerry_external_handler_t getter, std::string name)
+void registerPropertyDescriptor(jerry_value_t object, jerry_external_handler_t setter, jerry_external_handler_t getter, std::string name)
 {
     jerry_property_descriptor_t propDesc;
     jerry_init_property_descriptor_fields(&propDesc);
@@ -178,10 +178,10 @@ void registerPropertyDesctiptor(jerry_value_t object, jerry_external_handler_t s
 
 void bindGepardAttributes(jerry_value_t object)
 {
-    registerPropertyDesctiptor(object, fillStyleSetterHandler, fillStyleGetterHandler, "fillStyle");
-    registerPropertyDesctiptor(object, strokeStyleSetterHandler, strokeStyleGetterHandler, "strokeStyle");
-    registerPropertyDesctiptor(object, lineCapSetterHandler, lineCapGetterHandler, "lineCap");
-    registerPropertyDesctiptor(object, lineJoinSetterHandler, lineJoinGetterHandler, "lineJoin");
-    registerPropertyDesctiptor(object, lineWidthSetterHandler, lineWidthGetterHandler, "lineWidth");
-    registerPropertyDesctiptor(object, miterLimitSetterHandler, miterLimitGetterHandler, "miterLimit");
+    registerPropertyDescriptor(object, fillStyleSetterHandler, fillStyleGetterHandler, "fillStyle");
+    registerPropertyDescriptor(object, strokeStyleSetterHandler, strokeStyleGetterHandler, "strokeStyle");
+    registerPropertyDescriptor(object, lineCapSetterHandler, lineCapGetterHandler, "lineCap");
+    registerPropertyDescriptor(object, lineJoinSetterHandler, lineJoinGetterHandler, "lineJoin");
+    registerPropertyDescriptor(object, lineWidthSetterHandler, lineWidthGetterHandler, "lineWidth");
+    registerPropertyDescriptor(object, miterLimitSetterHandler, miterLimitGetterHandler, "miterLimit");
 }
