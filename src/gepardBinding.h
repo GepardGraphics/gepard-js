@@ -29,8 +29,6 @@
 #include <gepard.h>
 #include <jerryscript.h>
 
-// TODO: move this into the cmake
-#define USE_GEPARD_EXPERIMENTAL 1
 
 jerry_value_t fillRectHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt);
 jerry_value_t setFillColorHandler(const jerry_value_t func_value, const jerry_value_t this_val, const jerry_value_t *args_p, const jerry_length_t args_cnt);
