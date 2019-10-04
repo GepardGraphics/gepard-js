@@ -1,0 +1,23 @@
+language: cpp
+os: linux
+sudo: required
+dist: xenial
+
+compiler:
+  - gcc
+  - clang
+
+# branches:
+#  only:
+#  - master
+
+
+before_install:
+  - sudo apt-get -qq update
+
+install:
+  - sudo apt-get install -qq freeglut3-dev libegl1-mesa-dev libgles2-mesa-dev;
+  - sudo apt-get install -qq libpng16-dev
+
+script:
+  - tools/travis.sh
