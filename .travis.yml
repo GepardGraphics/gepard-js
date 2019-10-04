@@ -7,10 +7,9 @@ compiler:
   - gcc
   - clang
 
-# branches:
-#  only:
-#  - master
-
+branches:
+  only:
+  - master
 
 before_install:
   - sudo apt-get -qq update

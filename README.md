@@ -1,4 +1,4 @@
-Gepard-JS
+Gepard-JS [![Build Status](https://travis-ci.org/GepardGraphics/gepard-js.svg?branch=master)](https://travis-ci.org/GepardGraphics/gepard-js)
 ====
 
 The Gepard-JS is a JavaScript binding of the [Gepard](https://github.com/GepardGraphics/gepard) library
