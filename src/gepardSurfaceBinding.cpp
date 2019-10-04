@@ -130,9 +130,8 @@ void bindSurface()
 gepard::XSurface* getNativeXSurfacePtr(jerry_value_t object)
 {
     void* nativePointer = nullptr;
-    const jerry_object_native_info_t *type_p = nullptr;
-    bool hasNativePointer = jerry_get_object_native_pointer(object, &nativePointer, &type_p);
-    if (hasNativePointer && type_p == &native_x_surface_type_info)
+    bool hasNativePointer = jerry_get_object_native_pointer(object, &nativePointer, &native_x_surface_type_info);
+    if (hasNativePointer)
         return reinterpret_cast<gepard::XSurface*>(nativePointer);
     return nullptr;
 }
@@ -140,9 +139,8 @@ gepard::XSurface* getNativeXSurfacePtr(jerry_value_t object)
 gepard::MemoryBufferSurface* getNativeMemorySurfacePtr(jerry_value_t object)
 {
     void* nativePointer = nullptr;
-    const jerry_object_native_info_t *type_p = nullptr;
-    bool hasNativePointer = jerry_get_object_native_pointer(object, &nativePointer, &type_p);
-    if (hasNativePointer && type_p == &native_memory_surface_type_info)
+    bool hasNativePointer = jerry_get_object_native_pointer(object, &nativePointer, &native_memory_surface_type_info);
+    if (hasNativePointer)
         return reinterpret_cast<gepard::MemoryBufferSurface*>(nativePointer);
     return nullptr;
 }
@@ -150,9 +148,9 @@ gepard::MemoryBufferSurface* getNativeMemorySurfacePtr(jerry_value_t object)
 gepard::Surface* getNativeSurfacePtr(jerry_value_t object)
 {
     void* nativePointer = nullptr;
-    const jerry_object_native_info_t *type_p = nullptr;
-    bool hasNativePointer = jerry_get_object_native_pointer(object, &nativePointer, &type_p);
-    if (hasNativePointer && (type_p == &native_x_surface_type_info || type_p == &native_memory_surface_type_info))
+    bool hasNativePointer = jerry_get_object_native_pointer(object, &nativePointer, &native_x_surface_type_info)
+            || jerry_get_object_native_pointer(object, &nativePointer, &native_memory_surface_type_info);
+    if (hasNativePointer)
         return reinterpret_cast<gepard::Surface*>(nativePointer);
     return nullptr;
 }
