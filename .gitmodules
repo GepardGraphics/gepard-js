@@ -1,0 +1,6 @@
+[submodule "modules/gepard"]
+	path = modules/gepard
+	url = https://github.com/GepardGraphics/gepard.git
+[submodule "modules/jerryscript"]
+	path = modules/jerryscript
+	url = https://github.com/jerryscript-project/jerryscript.git
