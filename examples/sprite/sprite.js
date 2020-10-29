@@ -26,7 +26,7 @@
 function sleep(milliseconds) {
   var start = new Date().getTime();
   for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
+    if ((new Date().getTime() - start) > milliseconds) {
       break;
     }
   }
@@ -50,7 +50,7 @@ dx = 0;
 dy = 318;
 dw = sw;
 dh = sh;
-for(i = 0; !surface.hasToQuit() && i < 21; i++) {
+for (i = 0; !surface.hasToQuit() && i < 21; i++) {
     sx = i % numOfSprites * spW;
     gepard.fillRect(0, 0, surface.width, surface.height);
     dx = i * bgStep % surface.width;
@@ -59,7 +59,7 @@ for(i = 0; !surface.hasToQuit() && i < 21; i++) {
     gepard.drawImage(image, sx, sy, sw, sh, 250, dy, dw, dh);
     gepard.finish();
     sleep(64);
-    if (!(i%5)){
+    if (!(i % 5)){
         var frame = gepard.getImageData(0, 0, surface.width, surface.height);
         savePng(frame, "temp/frame"+i+".png");
     }
