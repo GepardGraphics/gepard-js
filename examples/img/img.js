@@ -32,4 +32,4 @@ gepard.setFillColor(255, 255, 255, 1.0);
 gepard.fillRect(0, 0, surface.width, surface.height);
 
 gepard.drawImage(image, 0, 0, surface.width, surface.height);
-while(!surface.hasToQuit()) {}
+while (!surface.hasToQuit()) {}
