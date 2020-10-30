@@ -108,9 +108,8 @@ void bindImage()
 gepard::Image *getNativeImagePtr(jerry_value_t object)
 {
     void* nativePointer = nullptr;
-    const jerry_object_native_info_t *type_p = nullptr;
-    bool hasNativePointer = jerry_get_object_native_pointer(object, &nativePointer, &type_p);
-    if (hasNativePointer && type_p == &native_image_type_info)
+    bool hasNativePointer = jerry_get_object_native_pointer(object, &nativePointer, &native_image_type_info);
+    if (hasNativePointer)
         return reinterpret_cast<gepard::Image*>(nativePointer);
     return nullptr;
 }
