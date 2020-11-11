@@ -14,7 +14,7 @@ The `GEPARD_INSTALL_DIR` and `JERRYSCRIPT_INSTALL_DIR` need to be set to their c
 Example commands are shown below.
 
 ```
-cmake -Bbuild -H. -DGEPARD_INSTALL_DIR=../gepard/build/ -DJERRYSCRIPT_INSTALL_DIR=../jerryscript-install/
+cmake -Bbuild -H. -DGEPARD_INSTALL_DIR=modules/gepard/build/ -DJERRYSCRIPT_INSTALL_DIR=modules/jerryscript/install/
 make -C build
 ```
 
